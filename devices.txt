@@ -1,0 +1,5 @@
+Fridge;300;Kitchen
+TV;200;Entertainment
+Lamp;60;Lighting
+Microwave;800;Kitchen
+Computer;500;Entertainment
