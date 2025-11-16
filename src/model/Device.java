@@ -1,38 +1,45 @@
 package model;
 
-public class Device {
-    private String name;
-    private double power;
-    private boolean on;
+import java.io.Serializable;
 
-    public Device(String name, double power) {
+public abstract class Device implements Comparable<Device>, Serializable {
+    protected String name;
+    protected int power;
+    protected boolean isOn;
+
+    public Device(String name, int power) {
         this.name = name;
         this.power = power;
-        this.on = false;
+        this.isOn = false;
     }
 
     public String getName() {
         return name;
     }
 
-    public double getPower() {
+    public int getPower() {
         return power;
     }
 
     public boolean isOn() {
-        return on;
+        return isOn;
     }
 
     public void turnOn() {
-        on = true;
+        isOn = true;
     }
 
     public void turnOff() {
-        on = false;
+        isOn = false;
+    }
+
+    @Override
+    public int compareTo(Device other) {
+        return Integer.compare(this.power, other.power);
     }
 
     @Override
     public String toString() {
-        return name + " (" + power + " Вт) " + (on ? "[УВІМКНЕНО]" : "[ВИМКНЕНО]");
+        return "Device: " + name + ", Power: " + power + "W, Status: " + (isOn ? "On" : "Off");
     }
 }

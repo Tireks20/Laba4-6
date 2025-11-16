@@ -1,31 +1,35 @@
 package command;
 
+import model.Device;
 import service.DeviceManager;
 import java.util.*;
 
+import java.util.Scanner;
+
 public class TurnOnDevicesCommand implements Command {
-    public String getDesc() {
-        return "Увімкнути прилади";
+    private ArrayList<Device> devices;
+
+    public TurnOnDevicesCommand() {
+        this.devices = DeviceManager.getInstance().getDevices();
     }
 
-    public void execute(String params) {
-        if (DeviceManager.isEmpty()) {
-            System.out.println("Список порожній!");
-            return;
-        }
-        Scanner sc = new Scanner(System.in);
-        DeviceManager.showAll();
-        System.out.print("Введіть номери приладів через кому (наприклад 1,3,5): ");
-        String line = sc.nextLine();
-        String[] parts = line.split(",");
-        List<Integer> list = new ArrayList<>();
-        for (String p : parts) {
-            try {
-                list.add(Integer.parseInt(p.trim()));
-            } catch (Exception e) {
-                System.out.println("Невірний номер: " + p.trim());
+    @Override
+    public void execute() {
+        System.out.println("Введіть назву приладу для увімкнення:");
+        Scanner scanner = new Scanner(System.in);
+        String name = scanner.nextLine();
+        for (Device device : devices) {
+            if (device.getName().equalsIgnoreCase(name)) {
+                device.turnOn();
+                System.out.println("Прилад " + name + " увімкнено!");
+                return;
             }
         }
-        DeviceManager.turnOnDevices(list);
+        System.out.println("Прилад з назвою " + name + " не знайдено!");
+    }
+
+    @Override
+    public String getDesc() {
+        return "Увімкнути прилад";
     }
 }

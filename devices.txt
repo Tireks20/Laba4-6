@@ -1,5 +1,7 @@
-Fridge;300;Kitchen
-TV;200;Entertainment
-Lamp;60;Lighting
-Microwave;800;Kitchen
-Computer;500;Entertainment
+
+Entertainment,Телевізор,150,ТВ
+Entertainment,Динамік,80,Аудіо
+KitchenDevice,Холодильник,200,A+
+KitchenDevice,Мікрохвильовка,800,B
+Lighting,Пилосос,1200,6
+Lighting,Обігрівач,1500,12

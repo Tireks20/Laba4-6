@@ -1,6 +1,6 @@
 package command;
 
 public interface Command {
+    void execute();
     String getDesc();
-    void execute(String params);
 }

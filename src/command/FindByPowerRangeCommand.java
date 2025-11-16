@@ -1,23 +1,42 @@
 package command;
 
+import model.Device;
 import service.DeviceManager;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import java.util.Scanner;
 
 public class FindByPowerRangeCommand implements Command {
-    public String getDesc() {
-        return "Знайти прилади у діапазоні потужності";
+    private ArrayList<Device> devices;
+
+    public FindByPowerRangeCommand() {
+        this.devices = DeviceManager.getInstance().getDevices();
     }
 
-    public void execute(String params) {
-        if (DeviceManager.isEmpty()) {
-            System.out.println("Список порожній!");
-            return;
+    @Override
+    public void execute() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введіть мінімальну потужність:");
+        int minPower = scanner.nextInt();
+        System.out.println("Введіть максимальну потужність:");
+        int maxPower = scanner.nextInt();
+
+        boolean found = false;
+        for (Device device : devices) {
+            if (device.getPower() >= minPower && device.getPower() <= maxPower) {
+                System.out.println(device);
+                found = true;
+            }
         }
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Введіть мінімальну потужність: ");
-        double min = sc.nextDouble();
-        System.out.print("Введіть максимальну потужність: ");
-        double max = sc.nextDouble();
-        DeviceManager.findByRange(min, max);
+        if (!found) {
+            System.out.println("Прилади в заданому діапазоні потужності не знайдено!");
+        }
+    }
+
+    @Override
+    public String getDesc() {
+        return "Знайти прилади за діапазоном потужності";
     }
 }

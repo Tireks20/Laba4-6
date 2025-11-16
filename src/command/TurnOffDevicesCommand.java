@@ -1,31 +1,35 @@
 package command;
 
+import model.Device;
 import service.DeviceManager;
 import java.util.*;
 
+import java.util.Scanner;
+
 public class TurnOffDevicesCommand implements Command {
-    public String getDesc() {
-        return "Вимкнути прилади";
+    private ArrayList<Device> devices;
+
+    public TurnOffDevicesCommand() {
+        this.devices = DeviceManager.getInstance().getDevices();
     }
 
-    public void execute(String params) {
-        if (DeviceManager.isEmpty()) {
-            System.out.println("Список порожній!");
-            return;
-        }
-        Scanner sc = new Scanner(System.in);
-        DeviceManager.showAll();
-        System.out.print("Введіть номери приладів через кому (наприклад 2,4): ");
-        String line = sc.nextLine();
-        String[] parts = line.split(",");
-        List<Integer> list = new ArrayList<>();
-        for (String p : parts) {
-            try {
-                list.add(Integer.parseInt(p.trim()));
-            } catch (Exception e) {
-                System.out.println("Невірний номер: " + p.trim());
+    @Override
+    public void execute() {
+        System.out.println("Введіть назву приладу для вимкнення:");
+        Scanner scanner = new Scanner(System.in);
+        String name = scanner.nextLine();
+        for (Device device : devices) {
+            if (device.getName().equalsIgnoreCase(name)) {
+                device.turnOff();
+                System.out.println("Прилад " + name + " вимкнено!");
+                return;
             }
         }
-        DeviceManager.turnOffDevices(list);
+        System.out.println("Прилад з назвою " + name + " не знайдено!");
+    }
+
+    @Override
+    public String getDesc() {
+        return "Вимкнути прилад";
     }
 }
